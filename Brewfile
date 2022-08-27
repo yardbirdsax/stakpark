@@ -8,3 +8,6 @@ brew "tilt"
 
 tap "warrensbox/tap"
 brew "tgswitch"
+
+tap "tilt-dev/tap"
+brew "ctlptl"

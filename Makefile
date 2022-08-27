@@ -8,6 +8,7 @@ TERRATEST_ENVS_DIR = $(TERRATEST_BASE_DIR)/envs
 TERRATEST_ENV_NAME = _example
 GOTEST_FLAGS = -v -timeout 15m
 GOLANGCI_LINT = golangci-lint
+CTLPTL = ctlptl
 
 # literal space hack
 space :=
@@ -128,3 +129,21 @@ down:
 	@$(call log-wait,stopping local test env with docker-compose...)
 	docker-compose down
 	@$(call log-ok,$@)
+
+ctlptl-apply:
+	@$(call log-target,$@)
+	@if [[ -z "$(FILE)" ]]; then \
+		$(call log-fail,FILE argument must be specified); \
+		exit 1; \
+	fi
+	@$(call log-wait,applying ctlptl file $(FILE))
+	ctlptl apply -f $(FILE)
+
+ctlptl-delete:
+	@$(call log-target,$@)
+	@if [[ -z "$(FILE)" ]]; then \
+		$(call log-fail,FILE argument must be specified); \
+		exit 1; \
+	fi
+	@$(call log-wait,deleting ctlptl file $(FILE))
+	ctlptl delete -f $(FILE)
